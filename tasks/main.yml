@@ -1,0 +1,69 @@
+---
+# tasks file for ansible-role-global_registration
+#
+- name: Set registration port if client is registring directly to Satellite
+  set_fact:
+    global_registration_port: 443
+  when: global_registration_host == "satellite"
+
+- name: Check variables
+  include_tasks: assert.yaml
+
+- name: Get Organization ID
+  include_tasks: get_organization.yaml
+  when: global_registration_organization_id is not defined and global_registration_organization is defined
+
+- name: Get Location ID
+  include_tasks: get_location.yaml
+  when: global_registration_location_id is not defined and global_registration_location is defined
+
+- name: Get SmartProxy ID
+  include_tasks: get_smart_proxy.yaml
+  when: global_registration_smart_proxy_id is not defined and global_registration_location is defined
+
+- name: Generate Registration Command
+  include_tasks: generate.yaml
+
+
+- name: Remove cert if ask to force
+  block:
+  - name: "Check if katello ca is present"
+    ansible.builtin.stat:
+      path: "/etc/rhsm/ca/katello-server-ca.pem"
+    register: katello_ca
+
+  - name: "Delete katello ca if present and force register"
+    ansible.builtin.file:
+      path: "/etc/rhsm/ca/katello-server-ca.pem"
+      state: absent
+    when: katello_ca.stat.exists
+    become: true
+
+  when: global_registration_force|bool == True
+
+
+- name: Execute Satellite Registration commmand
+  ansible.builtin.shell:
+    cmd: "{{ global_registration_command }}"
+    creates: /etc/rhsm/ca/katello-server-ca.pem
+  become: true
+
+- block:
+  - name: "check if reboot needed"
+    ansible.builtin.shell:
+      cmd: "/bin/needs-restarting -r"
+    register: restart
+    ignore_errors: yes
+    become: true
+
+  - name: "Warn user is reboot needed"
+    debug:
+      msg:
+        - "######################################"
+        - " Critical packages have been updated! "
+        - "######### PLEASE REBOOT HOST #########"
+        - "######################################"
+    when: restart.rc == 1
+
+  when: global_registration_update_packages|bool == True
+

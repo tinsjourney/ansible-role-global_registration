@@ -1,0 +1,7 @@
+---
+# vars file for ansible-role-global_registration
+global_registration_port: 8443
+
+global_registration_force_basic_auth: true
+
+global_registration_ignore_subman_errors: false

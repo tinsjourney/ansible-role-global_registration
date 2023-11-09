@@ -1,0 +1,25 @@
+---
+- name: Looking for Organization ID
+  ansible.builtin.uri:
+    url: "https://{{ global_registration_capsule }}:{{global_registration_port}}/api/organizations"
+    user: "{{ global_registration_username }}"
+    password: "{{ global_registration_password }}"
+    force_basic_auth: "{{ global_registration_force_basic_auth }}"
+    validate_certs: "{{ global_registration_validate_certs }}"
+    method: "GET"
+    body_format: json
+    body:
+      search: name="{{ global_registration_organization }}"
+    status_code: 200
+  register: global_registration_organization_result
+  when: global_registration_organization_id is not defined
+
+- name: Checks if the organization was found
+  ansible.builtin.debug:
+    msg: "This task fails if the organization was not found."
+  failed_when: global_registration_organization_result.json.results | length == 0
+
+- name: Set Organization ID if exists
+  ansible.builtin.set_fact:
+    global_registration_organization_id: "{{ global_registration_organization_result.json.results[0].id }}"
+  when: global_registration_organization_result.json.results | length > 0

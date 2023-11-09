@@ -1,0 +1,11 @@
+---
+- name: Check variables
+  assert:
+    that:
+      - global_registration_username is defined
+      - global_registration_password is defined
+      - global_registration_capsule is defined
+      - global_registration_organization_id is defined or global_registration_organization is defined
+      - global_registration_location_id is defined or global_registration_location is defined
+      - global_registration_activation_keys is defined
+    fail_msg: "Mandatory variables not defined"
