@@ -3,6 +3,8 @@ Global Registration
 
 Register content host to Satelite or Capsule/Load-Balancer using the [Global Registration API](https://access.redhat.com/documentation/en-us/red_hat_satellite/6.13/html/managing_hosts/registering_hosts_to_server_managing-hosts#Registering_Hosts_by_Using_Global_Registration_managing-hosts)
 
+By default call to API is done from content host. So it you're registring directly to Satellite it's using port 443, otherwise if using Capsule it's using deprecated port 8443.
+
 Requirements
 ------------
 
