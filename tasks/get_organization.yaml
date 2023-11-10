@@ -1,7 +1,7 @@
 ---
 - name: Looking for Organization ID
   ansible.builtin.uri:
-    url: "https://{{ global_registration_capsule }}:{{global_registration_port}}/api/organizations"
+    url: "https://{{ global_registration_capsule }}:{{ global_registration_port }}/api/organizations"
     user: "{{ global_registration_username }}"
     password: "{{ global_registration_password }}"
     force_basic_auth: "{{ global_registration_force_basic_auth }}"

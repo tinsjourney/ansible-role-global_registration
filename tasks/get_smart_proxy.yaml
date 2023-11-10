@@ -1,7 +1,7 @@
 ---
 - name: Looking for SmartProxy ID
-  uri:
-    url: "https://{{ global_registration_capsule }}:{{global_registration_port}}/api/smart_proxies"
+  ansible.builtin.uri:
+    url: "https://{{ global_registration_capsule }}:{{ global_registration_port }}/api/smart_proxies"
     user: "{{ global_registration_username }}"
     password: "{{ global_registration_password }}"
     force_basic_auth: "{{ global_registration_force_basic_auth }}"
@@ -9,18 +9,18 @@
     method: "GET"
     body_format: json
     body:
-      location_id: "{{global_registration_location_id}}"
-      organization_id: "{{global_registration_organization_id}}"
+      location_id: "{{ global_registration_location_id }}"
+      organization_id: "{{ global_registration_organization_id }}"
     status_code: 200
   register: global_registration_smartproxy_result
   when: global_registration_smart_proxy_id is not defined
 
 - name: Checks if the SmartProxy was found
-  debug:
+  ansible.builtin.debug:
     msg: "This task fails if the SmartProxy was not found."
   failed_when: global_registration_smartproxy_result.json.results | length == 0
 
 - name: Set SmartProxy ID if exists
-  set_fact:
+  ansible.builtin.set_fact:
     global_registration_smart_proxy_id: "{{ global_registration_smartproxy_result.json.results[0].id }}"
   when: global_registration_smartproxy_result.json.results | length > 0

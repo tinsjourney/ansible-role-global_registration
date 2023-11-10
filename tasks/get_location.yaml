@@ -1,7 +1,7 @@
 ---
 - name: Looking for Location ID
   ansible.builtin.uri:
-    url: "https://{{ global_registration_capsule }}:{{global_registration_port}}/api/locations"
+    url: "https://{{ global_registration_capsule }}:{{ global_registration_port }}/api/locations"
     user: "{{ global_registration_username }}"
     password: "{{ global_registration_password }}"
     force_basic_auth: "{{ global_registration_force_basic_auth }}"
@@ -21,5 +21,5 @@
 
 - name: Set Location ID if exists
   ansible.builtin.set_fact:
-   global_registration_location_id: "{{ global_registration_location_result.json.results[0].id }}"
+    global_registration_location_id: "{{ global_registration_location_result.json.results[0].id }}"
   when: global_registration_location_result.json.results | length > 0

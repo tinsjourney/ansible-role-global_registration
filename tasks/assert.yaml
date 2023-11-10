@@ -1,6 +1,6 @@
 ---
 - name: Check variables
-  assert:
+  ansible.builtin.assert:
     that:
       - global_registration_username is defined
       - global_registration_password is defined

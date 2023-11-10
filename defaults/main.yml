@@ -5,15 +5,15 @@ global_registration_host: "capsule"
 
 global_registration_validate_certs: true
 
-global_registration_setup_insights: yes
+global_registration_setup_insights: true
 
-global_registration_setup_remote_execution: yes
+global_registration_setup_remote_execution: true
 
 global_registration_token_life_time: 4
 
 global_registration_packages: "katello-host-tools katello-host-tools-tracer"
 
-global_registration_update_packages: yes
+global_registration_update_packages: true
 
 global_remote_execution_pull: false
 
