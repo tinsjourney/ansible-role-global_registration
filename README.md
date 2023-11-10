@@ -14,6 +14,7 @@ Role Variables
 **Mandatory variables**
 
 Credentials for user allowed to register host
+
 - global_registration_username
 - global_registration_password
 
@@ -21,18 +22,23 @@ User must have the "Regsiter hosts" role. Check https://access.redhat.com/soluti
 
 
 FQDN of Capsule/Load-balancer used to register the content host. If Satellite integrated capsule override global_registration_host in your playbook.
+
 - global_registration_capsule
 
 Organization Name
+
 - global_registration_organization
 
 Content Host Location
+
 - global_registration_location
 
 Comma separated list of activation keys
+
 - global_registration_activation_keys
 
 **Optional variables (Not Tested)**
+
 - global_registration_hostgroup_id
 - global_registration_operatingsystem_id
 - global_registration_repo
@@ -42,51 +48,61 @@ Comma separated list of activation keys
 **Default variables**
 
 Are we using Satellite or Capsule to register host ?
+
 - global_registration_host: "capsule"
 
 Do content host knows Certificate Authority used to sign Satellite/Capsule certificate ?
+
 - global_registration_validate_certs: true
 
 Setup Insights
+
 - global_registration_setup_insights: yes
 
 Setup REX
+
 - global_registration_setup_remote_execution: yes
 
 Token life time
+
 - global_registration_token_life_time: 4
 
 Install Packages during the registration. Red Hat Satellite Client 6 must be part of the content view to install the katello-host-tools packages.
+
 - global_registration_packages: "katello-host-tools katello-host-tools-tracer"
 
 Update content hosts packages
+
 - global_registration_update_packages: yes
 
 REX Pull mode
+
 - global_remote_execution_pull: false
 
 Remove any `katello-ca-consumer` rpms before registration and run subscription-manager with `--force` argument.
+
 - global_registration_force: false
 
 Print role debug information
+
 - global_registration_debug: false
 
 **Main variables**
 
 Port used to generate  registration command using Capsule/Load-Balancer.
+
 - global_registration_port: 8443
 
 Use basic authentication to log to API
+
 - global_registration_force_basic_auth: true
 
 Ignore subscription manager errors
+
 - global_registration_ignore_subman_errors: false
 
 Example Playbook
 ----------------
-PLAY [Setup Satellite VMs] **********************************************************************************************************************************************************
-
-TASK [Gathering Facts] **************************************************************************************************************************************************************
 
 ```
 - name: "Register Host using Capsule/Load-Balancer"
@@ -139,4 +155,4 @@ BSD
 Author Information
 ------------------
 
-Stephane V.](https://www.gnali.org) : tinsjourney@mastodon.top
+[Stephane V.](https://www.gnali.org) : tinsjourney@mastodon.top
