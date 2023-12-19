@@ -40,7 +40,7 @@
       become: true
 
 - name: Execute Satellite Registration commmand
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: "{{ global_registration_command }}"
     creates: /etc/rhsm/ca/katello-server-ca.pem
   become: true
@@ -49,10 +49,10 @@
   when: global_registration_update_packages
   block:
     - name: "Check if reboot needed"
-      ansible.builtin.command:
+      ansible.builtin.shell:
         cmd: "/bin/needs-restarting -r"
       register: restart
-      no-changed-when: restart.rc == 0
+      # no-changed-when: restart.rc == 0
       ignore_errors: true
       become: true
 
